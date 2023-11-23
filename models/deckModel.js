@@ -1,16 +1,28 @@
 const mongoose = require("mongoose");
 
-const deckSchema = new mongoose.Schema({
-  name: {
+const cardSchema = new mongoose.Schema({
+  front: {
     type: String,
     required: true,
   },
-  cards: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Card",
-    },
-  ],
+  back: {
+    type: String,
+    required: true,
+  },
 });
+
+const deckSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  cards: [cardSchema],
+});
+
+deckSchema.index({ title: 1 });
+// if i use title: "text" i can use $text search
+
+deckSchema.index({ cards: 1 });
 
 module.exports = mongoose.model("Deck", deckSchema);
