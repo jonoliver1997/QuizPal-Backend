@@ -21,9 +21,16 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const decks = await Deck.find({}, "title"); // Retrieve all decks, only returning 'title' and '_id'
+    const decks = await Deck.aggregate([
+      {
+        $project: {
+          title: 1,
+          numberOfCards: { $size: "$cards" },
+        },
+      },
+    ]);
 
-    res.json(decks); // Send the retrieved decks (containing only title and _id) as JSON
+    res.json(decks);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
