@@ -36,7 +36,7 @@ const createDeck = async (req, res) => {
 
 const getDeckById = async (req, res) => {
   try {
-    const deck = await Deck.findById(req.params.id);
+    const deck = await Deck.findById(req.params._id);
 
     res.json(deck);
   } catch (err) {
