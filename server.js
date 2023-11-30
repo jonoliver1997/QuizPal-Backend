@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const connectDB = require("./config/db");
 
 const deckRoutes = require("./routes/deckRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const port = process.env.PORT;
 connectDB();
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/decks", deckRoutes);
+app.use("/users", userRoutes);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}...`);

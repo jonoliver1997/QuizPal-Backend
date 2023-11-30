@@ -19,13 +19,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add a password"],
     },
-    dateOfBirth: {
-      type: Date,
-      required: [true, "Please add a date of birth"],
-    },
-    profilePhoto: {
-      type: String,
-    },
   },
   {
     timestamps: true,
