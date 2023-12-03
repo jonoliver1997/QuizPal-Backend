@@ -31,9 +31,10 @@ passport.use(
 const authenticateMiddleware = (req, res, next) => {
   passport.authenticate("jwt", { session: false }, (err, user) => {
     if (err || !user) {
+      console.log("User not authenticated");
       return res.status(401).json({ message: "Unauthorized" });
     }
-
+    console.log("User authenticated: ", user);
     req.user = user; // Set req.user to the authenticated user object
     return next();
   })(req, res, next);
