@@ -13,7 +13,6 @@ const options = {
 passport.use(
   new JwtStrategy(options, async (jwtPayload, done) => {
     try {
-      console.log("jwtPayload: ", jwtPayload);
       // Find the user based on the ID in jwtPayload
       const user = await User.findById(jwtPayload.userId);
 

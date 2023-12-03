@@ -11,7 +11,7 @@ const Deck = require("../models/deckModel");
 
 router.post("/", createDeck);
 
-router.get("/", authenticateMiddleware, getDecks);
+router.get("/", getDecks);
 router.get("/:id", getDeckById);
 
 module.exports = router;
