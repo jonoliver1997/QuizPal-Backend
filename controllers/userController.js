@@ -80,13 +80,9 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Generate a JSON Web Token (JWT)
   console.log(user._id.toString());
-  const token = jwt.sign(
-    { userId: user._id.toString() },
-    process.env.jwtSecret,
-    {
-      expiresIn: "1h",
-    }
-  );
+  const token = jwt.sign({ userId: user._id }, process.env.jwtSecret, {
+    expiresIn: "1h",
+  });
   console.log("Generated JWT Token", token);
   console.log("User ID: ", token.userId);
 
