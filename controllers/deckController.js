@@ -3,7 +3,14 @@ const mongoose = require("mongoose");
 
 const getDecks = async (req, res) => {
   try {
+    const userId = req.user._id;
+
     const decks = await Deck.aggregate([
+      {
+        $match: {
+          userId: mongoose.Types.ObjectId(userId),
+        },
+      },
       {
         $project: {
           title: 1,
@@ -21,9 +28,9 @@ const getDecks = async (req, res) => {
 const createDeck = async (req, res) => {
   try {
     const { title, cards } = req.body;
-
+    const userId = req.user._id;
     // Create a new deck with the provided title and cards
-    const newDeck = new Deck({ title, cards });
+    const newDeck = new Deck({ title, cards, userId });
 
     // Save the new deck to the database
     await newDeck.save();
@@ -36,7 +43,15 @@ const createDeck = async (req, res) => {
 
 const getDeckById = async (req, res) => {
   try {
-    const deck = await Deck.findById(req.params.id);
+    const userId = req.user._id;
+    const deck = await Deck.findOne({
+      _id: req.params.id,
+      userId: userId,
+    });
+
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
 
     res.json(deck);
   } catch (err) {

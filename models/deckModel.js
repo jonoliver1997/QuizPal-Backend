@@ -18,6 +18,10 @@ const deckSchema = new mongoose.Schema({
     unique: true,
   },
   cards: [cardSchema],
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 deckSchema.index({ title: 1 });
