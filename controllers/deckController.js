@@ -10,7 +10,7 @@ const getDecks = async (req, res) => {
     const decks = await Deck.aggregate([
       {
         $match: {
-          userId: mongoose.Types.ObjectId(userId),
+          userId: mongoose.Types.ObjectId(userId.toString()),
         },
       },
       {
