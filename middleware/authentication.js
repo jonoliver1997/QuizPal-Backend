@@ -15,7 +15,7 @@ passport.use(
     try {
       console.log("jwtPayload: ", jwtPayload);
       // Find the user based on the ID in jwtPayload
-      const user = await User.findById(jwtPayload.id);
+      const user = await User.findById(jwtPayload.userId);
 
       if (user) {
         console.log("User found: ", user);
