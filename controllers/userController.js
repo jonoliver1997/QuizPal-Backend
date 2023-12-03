@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
-const jwtSecret = process.env.JWT_SECRET || "secret";
+require("dotenv").config();
+const jwtSecret = process.env.jwtSecret || "secret";
 const mongoose = require("mongoose");
 
 // @desc: Register a new user
