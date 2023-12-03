@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const connectDB = require("./config/db");
 const passport = require("passport");
+const cors = require("cors");
 
 const deckRoutes = require("./routes/deckRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -14,6 +15,8 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
 
 app.use(passport.initialize());
 
