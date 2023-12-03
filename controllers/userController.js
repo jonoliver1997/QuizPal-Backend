@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 require("dotenv").config();
-const jwtSecret = process.env.jwtSecret || "secret";
+const jwtSecret = process.env.jwtSecret;
 const mongoose = require("mongoose");
 
 // @desc: Register a new user
