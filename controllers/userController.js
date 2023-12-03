@@ -82,8 +82,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const token = jwt.sign({ userId: user._id }, jwtSecret, {
     expiresIn: "1h",
   });
-  console.log(token);
-  console.log(jwt.verify(token, jwtSecret));
+  console.log("Generated JWT Token", token);
 
   res.status(200).json({
     _id: user._id,
