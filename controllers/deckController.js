@@ -5,6 +5,8 @@ const getDecks = async (req, res) => {
   try {
     const userId = req.user._id;
 
+    console.log("Fetching decks for user ID: ", userId);
+
     const decks = await Deck.aggregate([
       {
         $match: {
@@ -19,8 +21,11 @@ const getDecks = async (req, res) => {
       },
     ]);
 
+    console.log("Decks fetched: ", decks);
+
     res.json(decks);
   } catch (err) {
+    console.error("Error fetching decks: ", err);
     res.status(500).json({ message: err.message });
   }
 };
