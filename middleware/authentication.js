@@ -7,7 +7,7 @@ const User = require("../models/userModel");
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET,
+  secretOrKey: process.env.jwtSecret,
 };
 
 passport.use(
@@ -26,9 +26,6 @@ passport.use(
     }
   })
 );
-
-// Initialize Passport Middleware
-app.use(passport.initialize());
 
 // Custom authentication middleware using Passport
 const authenticateMiddleware = (req, res, next) => {

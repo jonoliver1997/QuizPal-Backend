@@ -9,7 +9,7 @@ const authenticateMiddleware = require("../middleware/authentication");
 
 const Deck = require("../models/deckModel");
 
-router.post("/", authenticateMiddleware, createDeck);
+router.post("/", createDeck);
 
 router.get("/", getDecks);
 router.get("/:id", getDeckById);
