@@ -54,7 +54,7 @@ const getDeckById = async (req, res) => {
   try {
     const userId = req.user._id;
     const deck = await Deck.findOne({
-      _id: req.params.id,
+      _id: req.params.deckId,
       userId: userId,
     });
 
@@ -68,4 +68,36 @@ const getDeckById = async (req, res) => {
   }
 };
 
-module.exports = { createDeck, getDecks, getDeckById };
+const editCardInDeck = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { deckId, cardId } = req.params;
+    const { front, back } = req.body;
+
+    const deck = await Deck.findOneAndUpdate(
+      { _id: deckId, userId: userId, "cards._id": cardId },
+      {
+        $set: {
+          "cards.$.front": front,
+          "cards.$.back": back,
+        },
+      },
+      { new: true }
+    );
+
+    if (!deck) {
+      return res.status(404).json({ message: "Deck or Card not found" });
+    }
+
+    res.json(deck);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = {
+  createDeck,
+  getDecks,
+  getDeckById,
+  editCardInDeck,
+};
