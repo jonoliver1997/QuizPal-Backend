@@ -50,6 +50,35 @@ const createDeck = async (req, res) => {
   }
 };
 
+const addCardToDeck = async (req, res) => {
+  try {
+    const { front, back } = req.body;
+    const userId = req.user._id;
+    const deckId = req.params.deckId;
+
+    const deck = await Deck.findOneAndUpdate(
+      { _id: deckId, userId: userId },
+      {
+        $push: {
+          cards: {
+            front: front,
+            back: back,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    res.json(deck);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const getDeckById = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -71,8 +100,20 @@ const getDeckById = async (req, res) => {
 const editCardInDeck = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { deckId, cardId } = req.params;
-    const { front, back } = req.body;
+    const { deckId } = req.params;
+    const { cardId } = req.params;
+    const { front, back } = req.body.updatedCard;
+
+    console.log(
+      "Received values - deckId:",
+      deckId,
+      "cardId:",
+      cardId,
+      "front:",
+      front,
+      "back:",
+      back
+    );
 
     const deck = await Deck.findOneAndUpdate(
       { _id: deckId, userId: userId, "cards._id": cardId },
@@ -91,6 +132,7 @@ const editCardInDeck = async (req, res) => {
 
     res.json(deck);
   } catch (err) {
+    console.error("Error editing card: ", err);
     res.status(500).json({ message: err.message });
   }
 };
@@ -100,4 +142,5 @@ module.exports = {
   getDecks,
   getDeckById,
   editCardInDeck,
+  addCardToDeck,
 };
