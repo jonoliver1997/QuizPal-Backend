@@ -157,6 +157,33 @@ const deleteDeck = async (req, res) => {
   }
 };
 
+const deleteCardFromDeck = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const deckId = req.params.deckId;
+    const cardId = req.params.cardId;
+
+    const deck = await Deck.findOneAndUpdate(
+      { _id: deckId, userId: userId },
+      {
+        $pull: {
+          cards: { _id: cardId },
+        },
+      },
+      { new: true }
+    );
+
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    res.json(deck);
+  } catch (err) {
+    console.error("Error deleting card: ", err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createDeck,
   getDecks,
@@ -164,4 +191,5 @@ module.exports = {
   editCardInDeck,
   addCardToDeck,
   deleteDeck,
+  deleteCardFromDeck,
 };

@@ -7,6 +7,7 @@ const {
   editCardInDeck,
   addCardToDeck,
   deleteDeck,
+  deleteCardFromDeck,
 } = require("../controllers/deckController");
 const authenticateMiddleware = require("../middleware/authentication");
 
@@ -21,5 +22,6 @@ router.get("/", getDecks);
 router.get("/:deckId", getDeckById);
 router.delete("/:deckId", deleteDeck);
 router.put("/:deckId/cards/:cardId", editCardInDeck);
+router.delete("/:deckId/cards/:cardId", deleteCardFromDeck);
 
 module.exports = router;
