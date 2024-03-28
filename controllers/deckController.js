@@ -137,10 +137,31 @@ const editCardInDeck = async (req, res) => {
   }
 };
 
+const deleteDeck = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const deckId = req.params.deckId;
+
+    const deck = await Deck.findOneAndDelete({
+      _id: deckId,
+      userId: userId,
+    });
+
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    res.json({ message: "Deck deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createDeck,
   getDecks,
   getDeckById,
   editCardInDeck,
   addCardToDeck,
+  deleteDeck,
 };
